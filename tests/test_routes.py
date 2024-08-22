@@ -198,3 +198,21 @@ class TestAccountService(TestCase):
             content_type="application/json")
         
         self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    def test_get_all_accounts(self):
+        """It should get a list of Accounts"""
+        self._create_accounts(5)
+
+        resp = self.client.get(BASE_URL, content_type="application/json")
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+
+        data = resp.get_json()
+        self.assertEqual(len(data), 5)
+
+    def test_get_accounts_none_found(self):
+        """It should get a an empty array"""
+        resp = self.client.get(BASE_URL, content_type="application/json")
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+
+        data = resp.get_json()
+        self.assertEqual(len(data), 0)
