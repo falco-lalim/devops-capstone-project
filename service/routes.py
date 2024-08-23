@@ -60,6 +60,8 @@ def create_accounts():
 ######################################################################
 # LIST ALL ACCOUNTS
 ######################################################################
+
+
 @app.route("/accounts", methods=["GET"])
 def list_accounts():
     """
@@ -77,7 +79,7 @@ def list_accounts():
     for account in accounts:
         account_list.append(account.serialize())
 
-    # log the number of accounts being returned in the list 
+    # log the number of accounts being returned in the list
     app.logger.info(f"%d Account found : {len(accounts)}")
 
     app.logger.info("Returning [%s] accounts", len(account_list))
@@ -86,6 +88,8 @@ def list_accounts():
 ######################################################################
 # READ AN ACCOUNT
 ######################################################################
+
+
 @app.route("/accounts/<id>", methods=["GET"])
 def read_account(id):
     """
@@ -102,7 +106,6 @@ def read_account(id):
     return make_response(jsonify(message), status.HTTP_200_OK)
 
 
-
 ######################################################################
 # UPDATE AN EXISTING ACCOUNT
 ######################################################################
@@ -113,12 +116,12 @@ def update_accounts(account_id):
     This endpoint will update an Account based on the posted data
     """
     app.logger.info("Request to update an Account with id: %s", account_id)
-    
+
     account = Account.find(account_id)
 
     if not account:
         abort(status.HTTP_404_NOT_FOUND, f"Account with id [{account_id}] could not be found.")
-    
+
     account.deserialize(request.get_json())
     account.update()
     return jsonify(account.serialize()), status.HTTP_200_OK
