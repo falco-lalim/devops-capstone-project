@@ -24,6 +24,8 @@ HTTPS_ENVIRON = {'wsgi.url_scheme': 'https'}
 ######################################################################
 #  T E S T   C A S E S
 ######################################################################
+
+
 class TestAccountService(TestCase):
     """Account Service Tests"""
 
@@ -176,7 +178,7 @@ class TestAccountService(TestCase):
             content_type="application/json"
         )
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
-    
+
     def test_delete_account(self):
         """It should Delete an Account"""
         account = self._create_accounts(1)[0]
@@ -191,14 +193,14 @@ class TestAccountService(TestCase):
         account_id = 0
         resp = self.client.delete(f"{BASE_URL}/{account_id}",
             content_type="application/json")
-        
+
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_method_not_allowed(self):
         """It should not allow an illegal method call"""
         resp = self.client.delete(BASE_URL,
             content_type="application/json")
-        
+
         self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def test_get_all_accounts(self):
@@ -222,7 +224,7 @@ class TestAccountService(TestCase):
     def test_security_headers_and_cors(self):
         """It should assert the presence of cors in the headers"""
         response = self.client.get("/", environ_overrides=HTTPS_ENVIRON)
-        
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.headers['X-Frame-Options'], "SAMEORIGIN")
         self.assertEqual(response.headers['X-Content-Type-Options'], "nosniff")
@@ -232,6 +234,6 @@ class TestAccountService(TestCase):
     def test_ac_allow_all_origin(self):
         """It should assert that access control allow all origin"""
         response = self.client.get("/", environ_overrides=HTTPS_ENVIRON)
-        
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.headers['Access-Control-Allow-Origin'], "*")
