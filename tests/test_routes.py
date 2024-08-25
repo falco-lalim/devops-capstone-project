@@ -132,8 +132,10 @@ class TestAccountService(TestCase):
         account = self._create_accounts(1)[0]
         self.assertIsNotNone(account.id)
 
-        read_resp = self.client.get(f"{BASE_URL}/{account.id}",
-            content_type="application/json")
+        read_resp = self.client.get(
+            f"{BASE_URL}/{account.id}",
+            content_type="application/json"
+        )
         self.assertEqual(read_resp.status_code, 200)
 
         data = read_resp.get_json()
@@ -143,8 +145,10 @@ class TestAccountService(TestCase):
     def test_read_account_not_found(self):
         """It should Read an unexisting Account"""
         id = 0
-        resp = self.client.get(f"{BASE_URL}/{id}",
-            content_type="application/json")
+        resp = self.client.get(
+            f"{BASE_URL}/{id}",
+            content_type="application/json"
+        )
         self.assertEqual(resp.status_code, 404)
 
     def test_update_account(self):
@@ -183,23 +187,29 @@ class TestAccountService(TestCase):
         """It should Delete an Account"""
         account = self._create_accounts(1)[0]
         # send a self.client.delete() request to the BASE_URL with an id of an account
-        resp = self.client.delete(f"{BASE_URL}/{account.id}",
-            content_type="application/json")
+        resp = self.client.delete(
+            f"{BASE_URL}/{account.id}",
+            content_type="application/json"
+        )
         # assert that the resp.status_code is status.HTTP_204_NO_CONTENT
         self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_delete_account_not_exist(self):
         """It should Delete an Account that is not found"""
         account_id = 0
-        resp = self.client.delete(f"{BASE_URL}/{account_id}",
-            content_type="application/json")
+        resp = self.client.delete(
+            f"{BASE_URL}/{account_id}",
+            content_type="application/json"
+        )
 
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_method_not_allowed(self):
         """It should not allow an illegal method call"""
-        resp = self.client.delete(BASE_URL,
-            content_type="application/json")
+        resp = self.client.delete(
+            BASE_URL,
+            content_type="application/json"
+        )
 
         self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
