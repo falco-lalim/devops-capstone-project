@@ -104,7 +104,7 @@ class TestAccountService(TestCase):
         location = response.headers.get("Location", None)
         self.assertIsNotNone(location)
 
-        # Check the data is correct 
+        # Check the data is correct
         new_account = response.get_json()
         self.assertEqual(new_account["name"], account.name)
         self.assertEqual(new_account["email"], account.email)
